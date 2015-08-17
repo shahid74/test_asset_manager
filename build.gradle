@@ -1,0 +1,88 @@
+buildscript {
+	ext {
+        springBootVersion = '1.2.5.RELEASE'
+    }
+    repositories {
+	maven { url "http://repo.maven.apache.org/maven2" }
+	// maven { url "http://cmmaven.cm.aol.com:8081/nexus/content/groups/public" }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.5.RELEASE")
+        classpath "se.transmode.gradle:gradle-docker:1.2"
+    }
+}
+
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'spring-boot'
+
+apply plugin: 'war'
+war {
+    baseName = 'resttemplate'
+}
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+     maven { url "http://repo.maven.apache.org/maven2" }
+    // maven { url "http://cmmaven.cm.aol.com:8081/nexus/content/groups/public" }
+}
+
+def springVersion="4.0.6.RELEASE"
+def hibernateVersion="4.3.6.Final"
+def mysqlVersion="5.1.31"
+
+
+dependencies {
+    	// Spring Boot
+    compile("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
+    compile("org.springframework.boot:spring-boot-starter-actuator:$springBootVersion")
+	
+	// Mappers
+    compile("com.fasterxml.jackson.core:jackson-databind:2.3.1")
+	
+	// Http
+    compile("org.apache.httpcomponents:httpclient:4.3.1")
+	
+	// HATEOS
+	compile("org.springframework.hateoas:spring-hateoas:0.16.0.RELEASE")
+	
+	// Aspects
+    compile 'org.aspectj:aspectjrt:1.7.4'
+    compile 'org.aspectj:aspectjweaver:1.7.4'
+    
+	// Utils
+	// compile 'com.aol:hog4j:4.1'
+	// compile 'com.aol.logging:web-logs:2.0.1'
+	compile 'org.apache.commons:commons-lang3:3.0'
+	
+	// API Documentation
+	compile "io.springfox:springfox-swagger2:2.0.2"
+	//compile 'io.springfox:springfox-swagger-ui:2.0.2'
+	
+	// Caching
+	compile ('net.sf.ehcache:ehcache-core:2.6.8')
+	compile ("org.springframework:spring-context-support:$springVersion")
+	compile ("org.springframework:spring-orm:$springVersion")
+	compile ("org.springframework:spring-tx:$springVersion")
+	
+	// Hibernate
+	compile ("org.hibernate:hibernate-core:$hibernateVersion")
+	
+	//MySQL
+	compile ("mysql:mysql-connector-java:$mysqlVersion")
+	
+	//DBCP
+	compile ('org.apache.commons:commons-dbcp2:2.0')
+	
+    testCompile group: 'junit', name: 'junit', version: '4.+'
+}
+
+test {
+    systemProperties 'property': 'value'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.5'
+}
